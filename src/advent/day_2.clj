@@ -4,18 +4,23 @@
 
 (defn parse-input-line [line]
   (let [[policy password] (str/split line #": ")
-        [min-max character] (str/split policy #" ")
-        [min-chars max-chars] (str/split min-max #"-")]
+        [nums character] (str/split policy #" ")
+        [first-num second-num] (str/split nums #"-")]
     {:password (str/trim password)
-     :policy   {:character (-> character (.charAt 0))
-                :min-chars (Integer/parseInt min-chars)
-                :max-chars (Integer/parseInt max-chars)}}))
+     :policy   {:character  (-> character (.charAt 0))
+                :first-num  (Integer/parseInt first-num)
+                :second-num (Integer/parseInt second-num)}}))
 
 (defn password-valid? [{:keys [password policy]}]
-  (let [{:keys [min-chars max-chars character]} policy
+  (let [{:keys [first-num second-num character]} policy
         char-count (->> password seq (filter #{character}) count)]
-    (and (>= char-count min-chars)
-         (<= char-count max-chars))))
+    (and (>= char-count first-num)
+         (<= char-count second-num))))
+
+(defn password-valid-new-rule? [{:keys [password policy]}]
+  (let [{:keys [first-num second-num character]} policy]
+    (not= (= character (.charAt password (dec first-num)))
+          (= character (.charAt password (dec second-num))))))
 
 (defn read-input [file]
   (->> file
@@ -24,11 +29,18 @@
        line-seq
        (mapv parse-input-line)))
 
-(defn day-3 []
+(defn part-1 []
   (let [inputs (read-input "day-2.input")]
     (->> inputs (filter password-valid?) count)))
 
+(defn part-2 []
+  (let [inputs (read-input "day-2.input")]
+    (->> inputs (filter password-valid-new-rule?) count)))
+
 (comment
-  (day-3)
+  (part-1)
   ;439
+
+  (part-2)
+  ;584
   )
