@@ -1,11 +1,5 @@
 (ns advent.day-1
-  (:require [clojure.java.io :as io])
-  (:import [java.lang Integer]))
-
-(defn except
-  "Returns a lazy seq of coll without the element in index (zero-based)"
-  [coll index]
-  (concat (take index coll) (drop (inc index) coll)))
+  (:require [clojure.java.io :as io]))
 
 (defn read-numbers [file]
   (->>
