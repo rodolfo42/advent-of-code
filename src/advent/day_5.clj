@@ -35,14 +35,31 @@
     io/reader
     parse-contents))
 
+(defn find-missing [coll]
+  (reduce (fn [last curr]
+            (if-not (= last (dec curr))
+              (reduced (dec curr))
+              curr))
+          (sort coll)))
+
 (defn part-1 []
   (let [input (read-input "day-5.input")]
     (->> input
          (map seat-id)
          (apply max))))
 
+(defn part-2 []
+  (let [input    (read-input "day-5.input")
+        seat-ids (map seat-id input)]
+    (find-missing seat-ids)))
+
 (comment
 
   (part-1)
   ; 922
+
+  (part-2)
+  ; 747
   )
+
+
