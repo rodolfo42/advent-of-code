@@ -1,6 +1,5 @@
 (ns advent.day-4
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+  (:require [clojure.string :as str]))
 
 (defn field-batch-str->id [field-batch-str]
   (apply hash-map (str/split field-batch-str #"( |:)")))
@@ -62,25 +61,18 @@
     (catch Exception _
       false)))
 
-(defn parse-contents [contents]
-  (->> contents
+(defn read-input [input]
+  (->> input
        line-seq
        group-id-fields
        (map field-batch-str->id)))
 
-(defn read-input [file]
-  (->>
-    file
-    io/resource
-    io/reader
-    parse-contents))
-
 (defn part-1 []
-  (let [input (read-input "day-4.input")]
+  (let [input (read-input #advent/input "day-4")]
     (->> input (filter valid-id?) count)))
 
 (defn part-2 []
-  (let [input (read-input "day-4.input")]
+  (let [input (read-input #advent/input "day-4")]
     (->> input (filter strict-valid-id?) count)))
 
 (comment

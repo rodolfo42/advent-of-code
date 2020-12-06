@@ -1,7 +1,8 @@
 (ns utils
-  (:require [puget.printer :as puget]
+  (:require [clojure.java.io :as io]
             [clojure.string :as str]
-            [puget.color.ansi :as ansi]))
+            [puget.color.ansi :as ansi]
+            [puget.printer :as puget]))
 
 (defn tap [x]
   (print (ansi/sgr " => " :bold :white))
@@ -18,3 +19,9 @@
      (print (ansi/sgr " => " :bold :white))
      (puget/cprint x#)
      x#))
+
+(defn read-input [filename]
+  `(->>
+     (str ~filename ".input")
+     io/resource
+     io/reader))

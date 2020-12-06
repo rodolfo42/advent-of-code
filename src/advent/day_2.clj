@@ -1,6 +1,5 @@
 (ns advent.day-2
-  (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+  (:require [clojure.string :as str]))
 
 (defn parse-input-line [line]
   (let [[policy password] (str/split line #": ")
@@ -22,19 +21,17 @@
     (not= (= character (.charAt password (dec first-num)))
           (= character (.charAt password (dec second-num))))))
 
-(defn read-input [file]
-  (->> file
-       io/resource
-       io/reader
+(defn read-input [input]
+  (->> input
        line-seq
        (mapv parse-input-line)))
 
 (defn part-1 []
-  (let [inputs (read-input "day-2.input")]
+  (let [inputs (read-input #advent/input "day-2")]
     (->> inputs (filter password-valid?) count)))
 
 (defn part-2 []
-  (let [inputs (read-input "day-2.input")]
+  (let [inputs (read-input #advent/input "day-2")]
     (->> inputs (filter password-valid-new-rule?) count)))
 
 (comment

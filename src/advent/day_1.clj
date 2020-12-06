@@ -1,13 +1,9 @@
-(ns advent.day-1
-  (:require [clojure.java.io :as io]))
+(ns advent.day-1)
 
-(defn read-numbers [file]
-  (->>
-    file
-    io/resource
-    io/reader
-    line-seq
-    (mapv #(Integer/parseInt %))))
+(defn read-numbers [input]
+  (->> input
+       line-seq
+       (mapv #(Integer/parseInt %))))
 
 (defn find-two-nums [numbers target]
   (let [found (atom nil)]
@@ -28,12 +24,12 @@
     @found))
 
 (defn part-1 []
-  (let [numbers (read-numbers "day-1.input")]
+  (let [numbers (read-numbers #advent/input "day-1")]
     (when-let [two-nums (find-two-nums numbers 2020)]
       (apply * two-nums))))
 
 (defn part-2 []
-  (let [numbers (read-numbers "day-1.input")]
+  (let [numbers (read-numbers #advent/input "day-1")]
     (when-let [three-nums (find-three-nums numbers 2020)]
       (apply * three-nums))))
 

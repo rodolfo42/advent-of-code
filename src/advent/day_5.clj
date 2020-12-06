@@ -1,6 +1,4 @@
-(ns advent.day-5
-  (:require [clojure.java.io :as io]
-            [utils :refer [tap]]))
+(ns advent.day-5)
 
 (defn find-loc
   "Given a loc-str like 'FBBBFFB' or 'LRL', and a char to indicate a bit set like \\B or \\R,
@@ -23,17 +21,10 @@
 (defn seat-id [{:keys [row column]}]
   (-> row (* 8) (+ column)))
 
-(defn parse-contents [contents]
-  (->> contents
+(defn read-input [input]
+  (->> input
        line-seq
        (map seat-loc)))
-
-(defn read-input [file]
-  (->
-    file
-    io/resource
-    io/reader
-    parse-contents))
 
 (defn find-missing [coll]
   (reduce (fn [last curr]
@@ -43,13 +34,13 @@
           (sort coll)))
 
 (defn part-1 []
-  (let [input (read-input "day-5.input")]
+  (let [input (read-input #advent/input "day-5")]
     (->> input
          (map seat-id)
          (apply max))))
 
 (defn part-2 []
-  (let [input    (read-input "day-5.input")
+  (let [input    (read-input #advent/input "day-5")
         seat-ids (map seat-id input)]
     (find-missing seat-ids)))
 

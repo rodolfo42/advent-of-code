@@ -1,11 +1,8 @@
-(ns advent.day-3
-  (:require [clojure.java.io :as io]))
+(ns advent.day-3)
 
-(defn read-input [file]
+(defn read-input [input]
   (->>
-    file
-    io/resource
-    io/reader
+    input
     line-seq
     (map cycle)))
 
@@ -26,14 +23,12 @@
              (+ slope-right' slope-right))
       tree-count)))
 
-default-data-readers
-
 (defn part-1 []
-  (let [tree-map (read-input "day-3.input")]
+  (let [tree-map (read-input #advent/input "day-3")]
     (count-trees tree-map 3 1)))
 
 (defn part-2 []
-  (let [tree-map    (read-input "day-3.input")
+  (let [tree-map    (read-input #advent/input "day-3")
         tree-counts (for [[right down] [[1 1]
                                         [3 1]
                                         [5 1]
