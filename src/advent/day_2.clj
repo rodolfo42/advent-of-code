@@ -1,5 +1,6 @@
 (ns advent.day-2
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [utils :refer [between?]]))
 
 (defn parse-input-line [line]
   (let [[policy password] (str/split line #": ")
@@ -13,8 +14,7 @@
 (defn password-valid? [{:keys [password policy]}]
   (let [{:keys [first-num second-num character]} policy
         char-count (->> password seq (filter #{character}) count)]
-    (and (>= char-count first-num)
-         (<= char-count second-num))))
+    (between? char-count first-num second-num)))
 
 (defn password-valid-new-rule? [{:keys [password policy]}]
   (let [{:keys [first-num second-num character]} policy]

@@ -1,25 +1,9 @@
 (ns advent.day-4
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [utils :refer [split-in-batches-by between?]]))
 
 (defn field-batch-str->id [field-batch-str]
   (apply hash-map (str/split field-batch-str #"( |:)")))
-
-(defn group-id-fields [lines]
-  (reduce (fn [all line]
-            (if (seq line)
-              (cons (str/trim (str (first all) " " line))
-                    (next all))
-              (cons "" all)))
-          []
-          lines))
-
-(defn between?
-  "True if n is between lower and upper (including), false otherwise"
-  [n lower upper]
-  (let [n' (cond-> n
-             string? Integer/parseInt)]
-    (and (>= n' lower)
-         (<= n' upper))))
 
 ;byr (Birth Year) - four digits; at least 1920 and at most 2002.
 ;iyr (Issue Year) - four digits; at least 2010 and at most 2020.
@@ -31,10 +15,6 @@
 ;ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
 ;pid (Passport ID) - a nine-digit number, including leading zeroes.
 ;cid (Country ID) - ignored, missing or not.
-
-(defn valid-id? [id]
-  (let [required-keys ["byr" "iyr" "eyr" "hgt" "hcl" "ecl" "pid"]]
-    (every? id required-keys)))
 
 (def validations
   {"byr" #(between? % 1920 2002)
@@ -50,6 +30,10 @@
    "ecl" #{"amb" "blu" "brn" "gry" "grn" "hzl" "oth"}
    "pid" #(re-matches #"[0-9]{9}" %)})
 
+(defn valid-id? [id]
+  (let [required-keys ["byr" "iyr" "eyr" "hgt" "hcl" "ecl" "pid"]]
+    (every? id required-keys)))
+
 (defn strict-valid-id? [id]
   (try
     (reduce-kv (fn [x k valid?]
@@ -64,7 +48,8 @@
 (defn read-input [input]
   (->> input
        line-seq
-       group-id-fields
+       (split-in-batches-by str/blank?)
+       (map (partial str/join " "))
        (map field-batch-str->id)))
 
 (defn part-1 []
