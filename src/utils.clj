@@ -5,5 +5,5 @@
   `(let [x# ~x]
      (println '~x)
      (println "=>")
-     (puget/cprint x#)
+     (puget/pprint x#)
      x#))
