@@ -12,7 +12,7 @@
 (def tree \#)
 
 (defn is-tree-at [tree-map pos]
-  (->> tree-map first (drop pos) first (= tree)))
+  (-> tree-map first (nth pos) (= tree)))
 
 (defn count-trees [tree-map slope-right slope-down]
   (loop [map'         (drop slope-down tree-map)
