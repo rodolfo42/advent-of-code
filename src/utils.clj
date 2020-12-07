@@ -24,7 +24,7 @@
          (<= n' upper))))
 
 (defn tap [x]
-  (print (ansi/sgr " => " :bold :white))
+  (println (ansi/sgr " => " :bold :white))
   (puget/cprint x)
   x)
 
@@ -43,4 +43,5 @@
   `(->>
      (str ~filename ".input")
      io/resource
-     io/reader))
+     io/reader
+     line-seq))
