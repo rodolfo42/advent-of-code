@@ -4,7 +4,6 @@
 
 (defn read-input [input]
   (->> input
-       line-seq
        (split-in-batches-by str/blank?)))
 
 (defn find-any-yes-answers [people-answers]

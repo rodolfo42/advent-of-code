@@ -3,7 +3,6 @@
 (defn read-input [input]
   (->>
     input
-    line-seq
     (map cycle)))
 
 (def tree \#)

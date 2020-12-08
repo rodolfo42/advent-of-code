@@ -2,7 +2,6 @@
 
 (defn read-numbers [input]
   (->> input
-       line-seq
        (mapv #(Integer/parseInt %))))
 
 (defn find-two-nums [numbers target]

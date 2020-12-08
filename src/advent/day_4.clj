@@ -47,7 +47,6 @@
 
 (defn read-input [input]
   (->> input
-       line-seq
        (split-in-batches-by str/blank?)
        (map (partial str/join " "))
        (map field-batch-str->id)))

@@ -23,7 +23,6 @@
 
 (defn read-input [input]
   (->> input
-       line-seq
        (map seat-loc)))
 
 (defn find-missing [coll]

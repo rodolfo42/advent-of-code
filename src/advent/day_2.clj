@@ -23,7 +23,6 @@
 
 (defn read-input [input]
   (->> input
-       line-seq
        (mapv parse-input-line)))
 
 (defn part-1 []
