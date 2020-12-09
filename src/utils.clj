@@ -24,8 +24,8 @@
          (<= n' upper))))
 
 (defn tap [x]
-  (println (ansi/sgr " => " :bold :white))
-  (puget/cprint x)
+  (println (ansi/sgr " => " :bold :white)
+           (puget/cprint-str x))
   x)
 
 (defn tap-reader [x]
