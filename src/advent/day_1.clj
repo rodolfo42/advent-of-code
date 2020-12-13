@@ -1,11 +1,9 @@
-(ns advent.day-1)
-
-(defn read-numbers [input]
-  (map #(Integer/parseInt %) input))
+(ns advent.day-1
+  (:require [utils :refer :all]))
 
 (defn find-two-nums [target numbers]
   (some #(some-> (some #{(- target %)} numbers)
-                 (cons [%]))
+                 (vector %))
         numbers))
 
 (defn find-three-nums [target numbers]
@@ -14,12 +12,12 @@
         numbers))
 
 (defn part-1 []
-  (some->> (read-numbers #advent/input "day-1")
+  (some->> (read-resource "day-1.input" read-string)
            (find-two-nums 2020)
            (apply *)))
 
 (defn part-2 []
-  (some->> (read-numbers #advent/input "day-1")
+  (some->> (read-resource "day-1.input" read-string)
            (find-three-nums 2020)
            (apply *)))
 

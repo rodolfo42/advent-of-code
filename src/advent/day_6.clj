@@ -1,10 +1,9 @@
 (ns advent.day-6
   (:require [clojure.string :as str]
-            [utils :refer [split-in-batches-by]]))
+            [utils :refer :all]))
 
 (defn read-input [input]
-  (->> input
-       (split-in-batches-by str/blank?)))
+  (split-in-batches-by str/blank? input))
 
 (defn find-any-yes-answers [people-answers]
   (set (apply concat people-answers)))
@@ -18,12 +17,12 @@
     (filter #(all-yes? % answers) questions)))
 
 (defn part-1 []
-  (->> (read-input #advent/input "day-6")
+  (->> (read-input (read-resource "day-6.input"))
        (map (comp count find-any-yes-answers))
        (apply +)))
 
 (defn part-2 []
-  (->> (read-input #advent/input "day-6")
+  (->> (read-input (read-resource "day-6.input"))
        (map (comp count find-all-yes-answers))
        (apply +)))
 

@@ -1,6 +1,6 @@
 (ns advent.day-7-test
-  (:require [clojure.test :refer :all]
-            [advent.day-7 :refer [read-input find-possible-outermost-bags part-1 part-2]]))
+  (:require [advent.day-7 :refer [parse-lines find-possible-outermost-bags part-1 part-2]]
+            [clojure.test :refer :all]))
 
 (def input ["light red bags contain 1 bright white bag, 2 muted yellow bags."
             "dark orange bags contain 3 bright white bags, 4 muted yellow bags."
@@ -13,8 +13,9 @@
             "dotted black bags contain no other bags."])
 
 (deftest find-possible-outermost-bags-test
-  (is (= (let [input (read-input input)]
-           (count (find-possible-outermost-bags input "shiny gold")))
+  (is (= (->> (parse-lines input)
+              (find-possible-outermost-bags "shiny gold")
+              count)
          4)))
 
 (deftest part-1-test

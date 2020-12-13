@@ -1,6 +1,6 @@
 (ns advent.day-4
   (:require [clojure.string :as str]
-            [utils :refer [split-in-batches-by between?]]))
+            [utils :refer :all]))
 
 (defn field-batch-str->id [field-batch-str]
   (apply hash-map (str/split field-batch-str #"( |:)")))
@@ -52,11 +52,11 @@
        (map field-batch-str->id)))
 
 (defn part-1 []
-  (let [input (read-input #advent/input "day-4")]
+  (let [input (read-input (read-resource "day-4.input"))]
     (->> input (filter valid-id?) count)))
 
 (defn part-2 []
-  (let [input (read-input #advent/input "day-4")]
+  (let [input (read-input (read-resource "day-4.input"))]
     (->> input (filter strict-valid-id?) count)))
 
 (comment

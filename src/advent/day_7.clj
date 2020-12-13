@@ -1,38 +1,29 @@
 (ns advent.day-7
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [utils :refer :all]))
 
 ;dim red bags contain 2 bright gold bags, 5 striped fuchsia bags.
 ;vibrant maroon bags contain no other bags.
 
-(defn process-rule [s]
-  (if (= "no other bags" s)
-    nil
-    (let [matches (re-matches #"([0-9]+) ([\w]+ [\w]+) bag(s*)" s)
-          [qty color] (rest matches)]
-      #{[color (Integer/parseInt qty)]})))
+(defn decode-bag-content [bag-content]
+  (if-let [[_ qty color] (re-matches #"([0-9]+) ([\w]+ [\w]+) bag(s*)" bag-content)]
+    [color (read-string qty)]))
 
-(defn process-rules [s]
-  (->> (str/split s #",")
-       (map str/trim)
-       (map process-rule)
-       (apply concat)))
-
-(defn parse-line [s]
-  (let [[color rule] (rest (re-matches #"([a-z]+ [a-z]+) bags contain ([0-9a-z ,]+)." s))]
-    (hash-map color (process-rules rule))))
-
-(defn read-input [input]
-  (->> input
-       (map parse-line)
-       (apply merge)))
-
-(defn flatten-colors [m]
-  (->> m
-       (map (fn [[k v]] [k (set (map first v))]))
+(defn decode-contents [bags]
+  (->> (str/split bags #",( *)")
+       (map decode-bag-content)
        (into {})))
 
+(defn parse-line [line]
+  (let [[_ color bags] (re-matches #"([a-z]+ [a-z]+) bags contain ([0-9a-z ,]+)." line)]
+    [color (decode-contents bags)]))
+
+(defn flatten-colors [m]
+  (zipmap (keys m)
+          (->> m vals (map (comp set keys)))))
+
 (defn find-possible-outermost-bags
-  [rules search-color]
+  [search-color rules]
   (let [flattened (flatten-colors rules)]
     (->> flattened
          keys
@@ -40,24 +31,31 @@
          (filter #(some #{search-color} %)))))
 
 (defn find-bag-contents
-  [rules color]
+  [color rules]
   (tree-seq #(-> % first rules)
             (fn [[c q]]
               (->> (get rules c)
                    (map (fn [[k v]] [k (* v q)]))))
             [color 1]))
 
+(defn parse-lines [input]
+  (->> input
+       (map parse-line)
+       (into {})))
+
 (defn part-1 []
-  (let [input (read-input #advent/input "day-7")]
-    (count (find-possible-outermost-bags input "shiny gold"))))
+  (->> (read-resource "day-7.input")
+       parse-lines
+       (find-possible-outermost-bags "shiny gold")
+       count))
 
 (defn part-2 []
-  (let [input (read-input #advent/input "day-7")]
-    (->> "shiny gold"
-         (find-bag-contents input)
-         (map second)
-         (apply +)
-         dec)))
+  (->> (read-resource "day-7.input")
+       parse-lines
+       (find-bag-contents "shiny gold")
+       (map second)
+       (apply +)
+       dec))
 
 (comment
 

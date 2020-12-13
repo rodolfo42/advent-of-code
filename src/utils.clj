@@ -4,9 +4,10 @@
             [puget.color.ansi :as ansi]
             [puget.printer :as puget]))
 
+; TODO return a lazy seq from this
 (defn split-in-batches-by
   "Split a coll into groups at every element where (pred elem) returns true.
-  Does not include these elements in any batch."
+  Does not include these elements in any group in the resulting seq."
   [pred coll]
   (loop [batched   []
          remaining coll]
@@ -39,9 +40,14 @@
      (puget/cprint x#)
      x#))
 
-(defn read-input [filename]
-  `(->>
-     (str ~filename ".input")
-     io/resource
-     io/reader
-     line-seq))
+(defn read-resource
+  "Reads filename as a resource file (present in classpath) and calls line-seq on it, thus returning a lazy sequence of lines.
+  Passing f as a third argument causes it to map each line over f."
+  ([filename]
+   (read-resource filename identity))
+  ([filename f]
+   (->> filename
+        io/resource
+        io/reader
+        line-seq
+        (map f))))

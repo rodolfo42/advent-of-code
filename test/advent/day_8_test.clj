@@ -1,6 +1,6 @@
 (ns advent.day-8-test
-  (:require [clojure.test :refer :all]
-            [advent.day-8 :refer [part-1]]))
+  (:require [advent.day-8 :refer [part-1]]
+            [clojure.test :refer :all]))
 
 (deftest part-1-test
   (is (= (part-1)

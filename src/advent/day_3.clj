@@ -1,9 +1,5 @@
-(ns advent.day-3)
-
-(defn read-input [input]
-  (->>
-    input
-    (map cycle)))
+(ns advent.day-3
+  (:require [utils :refer :all]))
 
 (def tree \#)
 
@@ -23,11 +19,11 @@
       tree-count)))
 
 (defn part-1 []
-  (let [tree-map (read-input #advent/input "day-3")]
-    (count-trees tree-map 3 1)))
+  (-> (read-resource "day-3.input" cycle)
+      (count-trees 3 1)))
 
 (defn part-2 []
-  (let [tree-map    (read-input #advent/input "day-3")
+  (let [tree-map    (read-resource "day-3.input" cycle)
         tree-counts (for [[right down] [[1 1]
                                         [3 1]
                                         [5 1]

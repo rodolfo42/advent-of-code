@@ -1,4 +1,5 @@
-(ns advent.day-5)
+(ns advent.day-5
+  (:require [utils :refer :all]))
 
 (defn find-loc
   "Given a loc-str like 'FBBBFFB' or 'LRL', and a char to indicate a bit set like \\B or \\R,
@@ -21,10 +22,6 @@
 (defn seat-id [{:keys [row column]}]
   (-> row (* 8) (+ column)))
 
-(defn read-input [input]
-  (->> input
-       (map seat-loc)))
-
 (defn find-missing [coll]
   (reduce (fn [last curr]
             (if-not (= last (dec curr))
@@ -33,15 +30,12 @@
           (sort coll)))
 
 (defn part-1 []
-  (let [input (read-input #advent/input "day-5")]
-    (->> input
-         (map seat-id)
-         (apply max))))
+  (->> (read-resource "day-5.input" (comp seat-id seat-loc))
+       (apply max)))
 
 (defn part-2 []
-  (let [input    (read-input #advent/input "day-5")
-        seat-ids (map seat-id input)]
-    (find-missing seat-ids)))
+  (->> (read-resource "day-5.input" (comp seat-id seat-loc))
+       find-missing))
 
 (comment
 
